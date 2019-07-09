@@ -236,10 +236,10 @@ local function len_fmt(str, len)
 end
 
 local legend = {
-	{ 'fid',        5  };
+	{ 'fid',        11 };
 	{ 'name',       33 };
 	{ 'status',     7  };
-	{ 'on_monitor', 11 };
+	{ 'mon',        6  };
 	{ 'gen',        5  };
 	{ 'errors',     20 };
 }
@@ -289,7 +289,7 @@ function M.ps(human_readable)
 			name       = fb.name;
 			csw        = fb.csw;
 			gen        = -1;
-			on_monitor = not not monitor;
+			mon        = not not monitor;
 			status     = "alive";
 			errors     = {};
 		}
@@ -354,7 +354,7 @@ function M.ps(human_readable)
 					name       = monitor.name;
 					csw        = monitor.csw;
 					gen        = monitor.gen;
-					on_monitor = true;
+					mon        = true;
 					status     = "dead";
 					errors     = {};
 				}

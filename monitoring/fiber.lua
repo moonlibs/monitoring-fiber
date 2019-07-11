@@ -214,6 +214,7 @@ function M.done(fb)
 			_event("alert", "FBMONITOR_DONE_UNMONITORED", json.encode(fbinfo))
 		end
 	else
+		monitor.heart_upd = fiber.time()
 		monitor.fiber_done = fiber.time()
 	end
 	return true
@@ -415,6 +416,7 @@ for _, fid in pairs(old_fibers) do
 		csw_stuck_seconds  = monitor.csw_stuck_seconds;
 		heartrate_seconds  = monitor.heartrate_seconds;
 		heart_upd          = monitor.heart_upd;
+		fiber_done         = monitor.fiber_done;
 	}
 	permanent[fid] = nil
 end
@@ -424,8 +426,8 @@ fiber.create(function()
 	local me = fiber.self()
 	me:name(GENERATION .. ":fmonitor")
 	M.monitor({
-		delay     = M._.config.period + 100;
-		heartrate = M._.config.period + 100;
+		delay     = M._.monitor_cfg.period + 100;
+		heartrate = M._.monitor_cfg.period + 100;
 	})
 	while GENERATION == package.reload.count do
 		M.beat()
@@ -452,7 +454,7 @@ fiber.create(function()
 		if not ok then
 			_event('alert', "FBMONITOR_FIBER_FAILED", json.encode(err))
 		end
-		fiber.sleep(M._.config.period)
+		fiber.sleep(M._.monitor_cfg.period)
 	end
 	M.done()
 end)

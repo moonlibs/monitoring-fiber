@@ -149,6 +149,7 @@ function M.monitor(opts)
 		heartrate_seconds  = opts.heartrate_seconds or M._.monitor_cfg.heartrate_seconds;
 		heart_upd          = now;
 	}
+	info.csw_stuck_seconds = math.max(info.csw_stuck_seconds, info.heartrate_seconds)
 	if opts.ttl_seconds < 0 then
 		info.delay_seconds = opts.delay_seconds or M._.monitor_cfg.delay_seconds;
 		info.permanent = true
@@ -426,8 +427,8 @@ fiber.create(function()
 	local me = fiber.self()
 	me:name(GENERATION .. ":fmonitor")
 	M.monitor({
-		delay     = M._.monitor_cfg.period + 100;
-		heartrate = M._.monitor_cfg.period + 100;
+		delay_seconds     = M._.monitor_cfg.period + 100;
+		heartrate_seconds = M._.monitor_cfg.period + 100;
 	})
 	while GENERATION == package.reload.count do
 		M.beat()

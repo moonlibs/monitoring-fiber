@@ -2,7 +2,7 @@ package = 'monitoring-fiber'
 version = 'scm-1'
 
 source  = {
-	url    = 'git://github.com/moonlibs/monitoring-fiber.git',
+	url    = 'git+https://github.com/moonlibs/monitoring-fiber.git',
 	branch = 'master',
 }
 
